@@ -2,7 +2,7 @@
                              #Deber 01- Caso de Estudio Clustering#
                              ######################################
 
-# Estudiantes:
+# Autores:
 # Alexander Aguirre
 # Gabriela Gallegos
 # Maribel Torres
