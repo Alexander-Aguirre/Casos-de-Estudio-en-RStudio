@@ -1,8 +1,8 @@
-                             ######################################
+ ######################################
                              #Deber 01- Caso de Estudio Clustering#
                              ######################################
 
-# Autores:
+# Estudiantes:
 # Alexander Aguirre
 # Gabriela Gallegos
 # Maribel Torres
@@ -12,7 +12,7 @@
 ########################################
 
 #Importar Data set
-install.packages("readr")
+#install.packages("readr")
 library(readr)
 segmentation <- read_csv("C:/Users/DELL/Desktop/segmentation_data(M).csv", col_names = FALSE)
 View(segmentation)
@@ -30,16 +30,16 @@ segmentation
 ###############################
 
 # Matriz de distancia
-d = dist(segmentation[,1:3], method = "euclidean")
+d = dist(segmentation[,2:4], method = "euclidean")
 d
 
 # NOTA: Metodo para medir la distancia es Euclideano (sistema metrico en la toma de datos).
 
 # Matriz de correlaciones
 
-c=cor(segmentation[,1:3])
+c=cor(segmentation[,2:4])
 c
-install.packages("corrplot")
+#install.packages("corrplot")
 library(corrplot)
 corrplot(c)
 
@@ -61,7 +61,7 @@ text(x, y, labels = row.names(segmentation), cex=1) #Poner textos originales de 
 # Identificacion de las Clases por cada color
 # Pintar la instancia en funcion de la clase (caracteristicas de la clase)
 
-clase = segmentation[,4] # 4 es el numero de la columna donde se encuentre la variable
+clase = segmentation[,1] # 1 es el numero de la columna donde se encuentre la variable
 clase
 plot(x,y,col=c(1:4)[clase], main = "segmentation Dataset Original")
 .
@@ -74,7 +74,7 @@ plot(x,y,col=c(1:4)[clase], main = "segmentation Dataset Original")
 #Algoritmo particional, K-Means#
 ################################
 
-grupos = kmeans(segmentation[,1:3],4) 
+grupos = kmeans(segmentation[,2:4],4) 
 grupos
 g1 = grupos$cluster
 g1
@@ -135,11 +135,6 @@ plot((1:length(wi)),wi, xlab="Numero de Clusters", ylab="SSE: Suma Cuadrados Int
 # x-> (1:length(wi))
 # y-> wi
 
-# Nota:
-# En el codo es donde se encuentra el numero ideal de grupos, lejos del mismo los grupos
-# son artificiales, en este caso sera el numero de grupos ideal de 2 a 3, sin embargo al 
-# hacer 4 grupos, el mismo tiende a ser artificial.
-
 #FIGURA 06
 
 ##############################
@@ -165,8 +160,8 @@ du2
 
 
 # Nota:
-# La mejor agrupacion de los algoritmos, es el algoritmo jerargico DHC, ya que al ser 0.005752465
-# es mayor el k-means que dio 0.002523106.
+# La mejor agrupacion de los algoritmos, es el algoritmo jerargico DHC, ya que al ser 0.02412917
+# es mayor el k-means que dio 0.0005342478.
 
 ########################
 #Coeficiente de Silueta#
@@ -179,7 +174,7 @@ sil1 = silhouette(g1,d) # Silueta N
 sil1
 plot(sil1,col=1:4, border=NA)
 
-#El coeficiente promedio es de 0.55
+#El coeficiente promedio es de 0.58
 
 #FIGURA 07
 
@@ -187,7 +182,7 @@ sil2 = silhouette(clus3,d)
 sil2
 plot(sil2,col=5:8, border=NA)
 
-#El coeficiente promedio es de 0.49
+#El coeficiente promedio es de 0.86
 
 #FIGURA 08
 
@@ -206,15 +201,15 @@ library(plyr)
 # -1<=ARI<=1, >ARI, mayor sera la semejanza entre los resultado y el "ground truth".
 
 
-segmentation2<-cbind(segmentation,g1)
+segmentation2<-cbind(segmentation$X2,segmentation$X3,segmentation$X4,g1)
 View(segmentation2)
 
-ground = as.factor(segmentation2[,5])
+
+ground = as.factor(segmentation2[,4])
 ground
 
-ground = revalue(ground, c("4"="VIP","3"="Nuevos","2"="VIP Potencial","1"="Baja Frecuencia"))
+ground = revalue(ground, c('1'="VIP",'2'="VIP Potencial",'3'="Baja Frecuencia",'4'="Nuevos"))
 ground
-
 
 ARI1= ARI(ground,g1)
 ARI1
@@ -225,7 +220,7 @@ ARI2
 # cluss3: el resultado del agrupamiento por algoritmo jerargico DHC.
 
 # Nota:
-# El ARI2 (0.7151374) indica que tiene un 71,51%  de semejanza entre los resultado y el "ground truth".
+# El ARI2 (0.1034991) indica que tiene un 10,34%  de semejanza entre los resultado y el "ground truth".
 
 ##################################
 #AMI, Adjusted Mutual Information#
@@ -237,7 +232,7 @@ AMI1= AMI(ground,clus3)
 AMI1
 
 # Nota:
-# El AMI1 (0.7662911) posee 76,63% de coincidencia.
+# El AMI1 (0.09457776) posee 9,46% de coincidencia.
 
 #####################################
 #NMI, Normalized Muatual Information#
@@ -247,4 +242,4 @@ NMI2= NMI(ground,clus3,variant = c("joint"))
 NMI2
 
 # Nota:
-# El NMI2 (0.6380167) posee 63.80% de informacion mutua o comparten.
+# El NMI2 (0.09161395) posee 9.16% de informacion mutua o comparten.
