@@ -1,5 +1,5 @@
                              ########################################################
-                             # Deber 03 - Caso de Estudio - ANN y SVM Clasificaci髇 #
+                             # Deber 03 - Caso de Estudio - ANN y SVM Clasificaci贸n #
                              ########################################################                                       
 
 ######################################
@@ -43,7 +43,7 @@ library(e1071)
 # Importacion del Dataset #
 ###########################
 
-tiempo1 <- proc.time() # Tiempo de ejecuci髇 del aprendizaje no supervisado
+tiempo1 <- proc.time() # Tiempo de ejecuci贸n del aprendizaje no supervisado
 
 train <- read_csv("C:/Users/DELL/Desktop/train.csv", col_names = TRUE)
 View(train)
@@ -236,7 +236,7 @@ proc.time() - tiempo1
 # Test     -> Pruebo que tan bueno es el modelo (25%).
 
 
-tiempo2 <- proc.time()  # Tiempo de ejecuci髇 de la red Neuronal
+tiempo2 <- proc.time()  # Tiempo de ejecuci贸n de la red Neuronal
 
 set.seed(2)
 ind_test = sample(nrow(sam), nrow(sam)/4) # 4 -> 100%/4=25%
@@ -360,12 +360,12 @@ proc.time() - tiempo2
 # Support Vector Machines - SVM #  
 #################################
 
-tiempo3 <- proc.time()  # Tiempo de ejecuci髇 de la maquina de soporte vectorial
+tiempo3 <- proc.time()  # Tiempo de ejecuci贸n de la maquina de soporte vectorial
 
 train <- read_csv("C:/Users/DELL/Desktop/train.csv", col_names = TRUE)
 View(train)
 
-tiempo1 <- proc.time() # Tiempo de ejecuci髇 del aprendizaje no supervisado
+tiempo1 <- proc.time() # Tiempo de ejecuci贸n del aprendizaje no supervisado
 
 
 train <- train[,-c(1,2,5,19,23,24,25,26,27,28,29),drop=FALSE]
